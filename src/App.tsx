@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import React from 'react';
+import { Home } from './pages'
+import { ChakraProvider } from '@chakra-ui/react';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-    
-    </div>
-  )
+    <ChakraProvider>
+      <Home />
+    </ChakraProvider>
+  );
 }
 
-export default App
+export default App;
