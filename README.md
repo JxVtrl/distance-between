@@ -1,8 +1,11 @@
 Stack:
-React
-Chakra UI
-TypeScript
-
+    React
+    Chakra UI
+    TypeScript
+    Eslint
+    Prettier
+    Jest
+    Formik
 
 
 
