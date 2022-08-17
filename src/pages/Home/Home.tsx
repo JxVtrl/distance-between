@@ -4,9 +4,9 @@ import { Form, Map } from '../../components';
 
 export function Home() {
   return (
-    <Flex>
+    <Flex w="100%" flexDir="column" align="center">
       <Form />
-      <Map />
+      {/* <Map /> */}
     </Flex>
   );
 }
