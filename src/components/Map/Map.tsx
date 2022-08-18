@@ -30,24 +30,26 @@ export function Map() {
   });
 
   useEffect(() => {
-    setMarkers([
-      {
-        id: ap1.id,
-        name: ap1.name,
-        position: {
-          lat: ap1.location.lat,
-          lng: ap1.location.lon,
+    if (ap1 && ap2) {
+      setMarkers([
+        {
+          id: ap1.id,
+          name: ap1.name,
+          position: {
+            lat: ap1.location.lat,
+            lng: ap1.location.lon,
+          },
         },
-      },
-      {
-        id: ap2.id,
-        name: ap2.name,
-        position: {
-          lat: ap2.location.lat,
-          lng: ap2.location.lon,
+        {
+          id: ap2.id,
+          name: ap2.name,
+          position: {
+            lat: ap2.location.lat,
+            lng: ap2.location.lon,
+          },
         },
-      },
-    ]);
+      ]);
+    }
   }, [ap1, ap2]);
 
   useEffect(() => {
@@ -74,15 +76,17 @@ export function Map() {
       }}
     >
       <Form />
-      {isLoaded && centerMark?.lat !== 0 && centerMark?.lng !== 0 && (
+      {isLoaded && (
       <GoogleMap
         mapContainerStyle={{
           position: 'absolute',
           width: '100%',
-          height: '80vh',
+          height: '100vh',
         }}
         center={centerMark}
         options={{
+          streetViewControl: false,
+          fullscreenControl: false,
           mapTypeControl: false,
         }}
         zoom={10}

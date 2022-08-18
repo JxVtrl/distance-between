@@ -1,8 +1,8 @@
 import React, {
-  createContext, useContext, useEffect, useState, useMemo,
+  createContext, useContext, useState, useMemo,
 } from 'react';
 
-interface iAp {
+export interface iAp {
   icao: string
   iata: string
   name: string
@@ -13,12 +13,6 @@ interface iAp {
     lon: string
   }
   countryCode: string
-}
-
-interface iValue {
-  ap1: iAp | null
-  ap2: iAp | null
-  searchedAirports : iAp[]
 }
 
 export const AppContext = createContext({});
@@ -54,7 +48,7 @@ export function AppProvider({ children }: any) {
     },
   );
 
-  const value: iValue = useMemo(() => ({
+  const value = useMemo(() => ({
     ap1,
     ap2,
     setAp1,
@@ -77,6 +71,6 @@ export function AppProvider({ children }: any) {
   );
 }
 
-export function useApp() {
+export function useApp(): any {
   return useContext(AppContext);
 }
