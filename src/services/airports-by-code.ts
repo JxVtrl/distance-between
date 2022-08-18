@@ -19,13 +19,9 @@ export async function airportsReq({ nameTxt }: ReqProps) {
 
   try {
     const { data } = await axios(options);
-    console.log(data.items[0]);
     return data.items;
   } catch (err: any) {
-    if (err.message) {
-      console.clear();
-      console.log(err.message);
-    }
+    if (err.message) { console.log(err.message); }
     return [];
   }
 }

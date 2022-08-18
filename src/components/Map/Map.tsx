@@ -1,8 +1,9 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
+import { Form } from '../Form';
 import { useApp } from '../../context';
-import { findCenterMark } from '../../hooks'
+import { findCenterMark } from '../../hooks';
 
 export interface iMarker {
   id: number
@@ -60,26 +61,35 @@ export function Map() {
     googleMapsApiKey: 'AIzaSyDVIFFJ2HX8WcOGAdoEFsorswjOJ5caj2U',
   });
 
+  if (!isLoaded) {
+    return <Skeleton width="100%" height="100vh" />;
+  }
+
   return (
     <Box
       sx={{
-        backgroundColor: 'red',
         position: 'relative',
         width: '100%',
-        margin: '2em auto',
       }}
     >
+      <Form />
       {isLoaded && centerMark?.lat !== 0 && centerMark?.lng !== 0 && (
       <GoogleMap
         mapContainerStyle={{
+          position: 'absolute',
           width: '100%',
-          height: '400px',
+          height: '100vh',
         }}
         center={centerMark}
+        mapTypeId="satellite"
+        options={{
+          mapTypeControl: false,
+        }}
         zoom={15}
       >
           {markers.map((item) => (
             <Marker
+              key={item.id}
               position={item.position}
               options={{
                 label: item.name,

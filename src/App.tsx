@@ -1,11 +1,11 @@
 import React from 'react';
-import { Home } from './pages';
+import { Map } from './components';
 import { AppProvider } from './context';
 
 function App() {
   return (
     <AppProvider>
-      <Home />
+      <Map />
     </AppProvider>
   );
 }
