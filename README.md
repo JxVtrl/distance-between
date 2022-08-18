@@ -1,12 +1,10 @@
 Stack:
     React
-    Chakra UI
+    Material UI
     TypeScript
     Eslint
     Prettier
     Jest
-    Formik
-    yup
 
 
 
