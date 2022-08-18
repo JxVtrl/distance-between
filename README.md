@@ -6,6 +6,7 @@ Stack:
     Prettier
     Jest
     Formik
+    yup
 
 
 
