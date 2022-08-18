@@ -1,0 +1,1 @@
+export { airports } from './data'
