@@ -1,8 +1,6 @@
 import React, {
   createContext, useContext, useEffect, useState, useMemo,
 } from 'react';
-import { getDistanceFromLatLonInNMiles } from '../hooks';
-import { airportsReq } from '../services';
 
 interface iAp {
   icao: string
