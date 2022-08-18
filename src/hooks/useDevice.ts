@@ -26,8 +26,8 @@ export function useDevice() {
   }, []);
 
   const device = {
-    isMobile: setWindowWidth(width, 0, 550),
-    isDesktop: setWindowWidth(width, 551, 0),
+    isMobile: setWindowWidth(width, 0, 750),
+    isDesktop: setWindowWidth(width, 751, 0),
   };
 
   return { device };
