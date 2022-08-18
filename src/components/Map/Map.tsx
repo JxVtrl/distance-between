@@ -1,5 +1,7 @@
 import { Box, Skeleton } from '@mui/material';
-import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
+import {
+  useJsApiLoader, GoogleMap, Marker, DirectionsRenderer,
+} from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
 import { Form } from '../Form';
 import { useApp } from '../../context';
@@ -21,19 +23,38 @@ interface iCenterMark {
 
 export function Map() {
   const {
-    center, ap1, ap2,
+    ap1, ap2,
   } = useApp();
+  const [errorMsg, setErrorMsg] = useState('');
   const [markers, setMarkers] = useState<iMarker[]>([]);
+  const [directionResponse, setDirectionResponse] = useState({});
   const [centerMark, setCenterMark] = useState<iCenterMark | undefined>({
     lat: 0,
     lng: 0,
   });
 
+  async function calculateRoute(list: iMarker[]) {
+    const directionService = new window.google.maps.DirectionsService();
+    try {
+      const results = await directionService.route(
+        {
+          origin: list[0].position,
+          destination: list[1].position,
+          travelMode: window.google.maps.TravelMode.DRIVING,
+        },
+      );
+      setDirectionResponse(results);
+      setErrorMsg('');
+    } catch {
+      setErrorMsg('Error calculating route');
+    }
+  }
+
   useEffect(() => {
     if (ap1 && ap2) {
       setMarkers([
         {
-          id: ap1.id,
+          id: 0,
           name: ap1.name,
           position: {
             lat: ap1.location.lat,
@@ -41,7 +62,7 @@ export function Map() {
           },
         },
         {
-          id: ap2.id,
+          id: 1,
           name: ap2.name,
           position: {
             lat: ap2.location.lat,
@@ -56,11 +77,13 @@ export function Map() {
     setCenterMark(
       findCenterMark(markers),
     );
+    calculateRoute(markers);
   }, [markers]);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyDVIFFJ2HX8WcOGAdoEFsorswjOJ5caj2U',
+    libraries: ['places'],
   });
 
   if (!isLoaded) {
@@ -75,7 +98,7 @@ export function Map() {
         height: '100%',
       }}
     >
-      <Form />
+      <Form errorMsg={errorMsg} />
       {isLoaded && (
       <GoogleMap
         mapContainerStyle={{
@@ -88,6 +111,7 @@ export function Map() {
           streetViewControl: false,
           fullscreenControl: false,
           mapTypeControl: false,
+          zoomControl: false,
         }}
         zoom={10}
       >
@@ -100,6 +124,12 @@ export function Map() {
               }}
             />
           ))}
+          {directionResponse
+            && (
+            <DirectionsRenderer
+              directions={directionResponse}
+            />
+            )}
       </GoogleMap>
       )}
     </Box>

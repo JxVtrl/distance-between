@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Autocomplete, TextField, Button } from '@mui/material';
+import {
+  Autocomplete, TextField, Button, Alert,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import { useApp } from '../../context';
 import { airportsReq } from '../../services';
 import { airports } from '../../data';
 import { useDevice } from '../../hooks';
-import { iAp } from '../../context/AppContext'
+import { iAp } from '../../context/AppContext';
 
 type isearchList = {
   items: iAp[];
 }
 
-export function Form() {
+type iForm = {
+  errorMsg: string;
+}
+
+export function Form({ errorMsg }: iForm) {
   const [ap1Value, setAp1Value] = useState<iAp | null>(null);
   const [ap2Value, setAp2Value] = useState<iAp | null>(null);
 
@@ -55,7 +61,7 @@ export function Form() {
         position: 'absolute',
         width: '100%',
         display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
+        flexDirection: 'column',
         borderRadius: '1rem',
         zIndex: 1,
         padding: '15px 10px',
@@ -70,9 +76,6 @@ export function Form() {
           zIndex: 1,
           padding: '15px 10px',
           justifyContent: 'flex-start',
-          _hover: {
-            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-          },
         }}
       >
         {airports.map((item) => (
@@ -90,6 +93,10 @@ export function Form() {
             renderInput={(params) => (
               <TextField
                 {...params}
+                sx={{
+                  backgroundColor: 'white',
+                  borderRadius: '4px',
+                }}
                 label={item.name}
                 variant="outlined"
                 fullWidth
@@ -106,6 +113,9 @@ export function Form() {
           />
         ))}
       </Box>
+      {errorMsg && ap1Value && ap2Value && (
+        <Alert sx={{ width: '250px' }} severity="warning">{errorMsg}</Alert>
+      )}
     </Box>
   );
 }
