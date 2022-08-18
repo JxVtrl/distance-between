@@ -2,35 +2,63 @@ import { Box } from '@mui/material';
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context';
+import { findCenterMark } from '../../hooks'
+
+export interface iMarker {
+  id: number
+  name: string
+  position: {
+    lat: number
+    lng: number
+  }
+}
+
+interface iCenterMark {
+  lat: number
+  lng: number
+}
 
 export function Map() {
-  const { center, getTo } = useApp();
-  const [centerMark, setCenterMark] = useState({
-    lat: 48.84996,
-    lng: 2.32540,
+  const {
+    center, ap1, ap2,
+  } = useApp();
+  const [markers, setMarkers] = useState<iMarker[]>([]);
+  const [centerMark, setCenterMark] = useState<iCenterMark | undefined>({
+    lat: 0,
+    lng: 0,
   });
 
   useEffect(() => {
-    setCenterMark({
-      lat: center.lat,
-      lng: center.lng,
-    });
-  }, [center]);
+    setMarkers([
+      {
+        id: ap1.id,
+        name: ap1.name,
+        position: {
+          lat: ap1.location.lat,
+          lng: ap1.location.lon,
+        },
+      },
+      {
+        id: ap2.id,
+        name: ap2.name,
+        position: {
+          lat: ap2.location.lat,
+          lng: ap2.location.lon,
+        },
+      },
+    ]);
+  }, [ap1, ap2]);
+
+  useEffect(() => {
+    setCenterMark(
+      findCenterMark(markers),
+    );
+  }, [markers]);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyDVIFFJ2HX8WcOGAdoEFsorswjOJ5caj2U',
   });
-
-  // const onUnmount = React.useCallback((map) => {
-  //   setMap(null);
-  // }, []);
-
-  // const onLoad = React.useCallback((map) => {
-  //   const bounds = new window.google.maps.LatLngBounds({ lat: 0, lng: 0 });
-  //   map.fitBounds(bounds);
-  //   setMap(map);
-  // }, []);
 
   return (
     <Box
@@ -41,7 +69,7 @@ export function Map() {
         margin: '2em auto',
       }}
     >
-      {isLoaded && (
+      {isLoaded && centerMark?.lat !== 0 && centerMark?.lng !== 0 && (
       <GoogleMap
         mapContainerStyle={{
           width: '100%',
@@ -50,7 +78,14 @@ export function Map() {
         center={centerMark}
         zoom={15}
       >
-        <Marker position={centerMark} />
+          {markers.map((item) => (
+            <Marker
+              position={item.position}
+              options={{
+                label: item.name,
+              }}
+            />
+          ))}
       </GoogleMap>
       )}
     </Box>
