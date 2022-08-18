@@ -1,6 +1,7 @@
 import React, {
   createContext, useContext, useEffect, useState, useMemo,
 } from 'react';
+import { getDistanceFromLatLonInNMiles } from '../hooks';
 import { airportsReq } from '../services';
 
 interface iAp {
@@ -54,6 +55,34 @@ export function AppProvider({ children }: any) {
       countryCode: '',
     },
   );
+  const [center, setCenter] = useState({
+    lat: 48.84996,
+    lng: 2.32540,
+  });
+
+  useEffect(() => {
+    console.log(ap1);
+    if (ap1.location.lat) {
+      setCenter({
+        lat: Number(ap1.location.lat),
+        lng: Number(ap1.location.lon),
+      });
+    }
+  }, [ap1]);
+  // useEffect(() => {
+  //   console.log(ap2);
+  // }, [ap2]);
+
+  function handleSubmit() {
+    console.log(
+      getDistanceFromLatLonInNMiles(
+        Number(ap1.location.lat),
+        Number(ap1.location.lon),
+        Number(ap2.location.lat),
+        Number(ap2.location.lon),
+      ),
+    );
+  }
 
   const value: iValue = useMemo(() => ({
     ap1,
@@ -62,6 +91,9 @@ export function AppProvider({ children }: any) {
     setAp2,
     searchedAirports,
     setSearchedAirports,
+    setCenter,
+    center,
+    handleSubmit,
   }), [
     ap1,
     ap2,
@@ -69,6 +101,8 @@ export function AppProvider({ children }: any) {
     setAp2,
     searchedAirports,
     setSearchedAirports,
+    center,
+    handleSubmit,
   ]);
 
   return (
