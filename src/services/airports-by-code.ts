@@ -5,18 +5,21 @@ type ReqProps = {
 }
 
 export async function airportsReq({ nameTxt }: ReqProps) {
+  const name = nameTxt?.split(' ').slice(0, 1).join(' ').replace(',', '');
+
   const options = {
     method: 'GET',
     url: 'https://aerodatabox.p.rapidapi.com/airports/search/term',
-    params: { q: nameTxt },
+    params: { q: name },
     headers: {
-      'X-RapidAPI-Key': '6e3f00ce17msh6ea57863855411bp1b7677jsnae60dea6f494',
+      'X-RapidAPI-Key': 'f8790a829cmsh0aafd4d37c1efaep1da8c7jsnf7964ac8ad36',
       'X-RapidAPI-Host': 'aerodatabox.p.rapidapi.com',
     },
   };
 
   try {
     const { data } = await axios(options);
+    console.log(data.items[0]);
     return data.items;
   } catch (err: any) {
     if (err.message) {
