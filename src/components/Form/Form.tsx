@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Autocomplete, TextField, Button } from '@mui/material';
 import Box from '@mui/material/Box';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { useApp } from '../../context';
 import { airportsReq } from '../../services';
 import { airports } from '../../data';
@@ -50,7 +49,7 @@ export function Form() {
         gap: '2rem',
         borderRadius: '1rem',
         zIndex: 1,
-        padding: '5px',
+        padding: '15px 10px',
       }}
     >
       {airports.map((item) => (

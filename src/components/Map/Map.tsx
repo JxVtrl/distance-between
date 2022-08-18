@@ -70,6 +70,7 @@ export function Map() {
       sx={{
         position: 'relative',
         width: '100%',
+        height: '100%',
       }}
     >
       <Form />
@@ -78,14 +79,13 @@ export function Map() {
         mapContainerStyle={{
           position: 'absolute',
           width: '100%',
-          height: '100vh',
+          height: '80vh',
         }}
         center={centerMark}
-        mapTypeId="satellite"
         options={{
           mapTypeControl: false,
         }}
-        zoom={15}
+        zoom={10}
       >
           {markers.map((item) => (
             <Marker
