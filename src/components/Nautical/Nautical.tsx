@@ -20,9 +20,10 @@ export function Nautical() {
   }, [ap1, ap2]);
 
   return (
-    <div>
-      <h2>Nautical Miles</h2>
-      <p>{distance}</p>
-    </div>
+    <>
+      {distance}
+      {' '}
+      NM
+    </>
   );
 }

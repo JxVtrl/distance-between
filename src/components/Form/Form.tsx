@@ -8,6 +8,7 @@ import { airportsReq } from '../../services';
 import { airports } from '../../data';
 import { useDevice } from '../../hooks';
 import { iAp } from '../../context/AppContext';
+import { Nautical } from '../Nautical';
 
 type isearchList = {
   items: iAp[];
@@ -113,9 +114,30 @@ export function Form({ errorMsg }: iForm) {
           />
         ))}
       </Box>
-      {errorMsg && ap1Value && ap2Value && (
-        <Alert sx={{ width: '250px' }} severity="warning">{errorMsg}</Alert>
+      {ap1Value && ap2Value && (
+        <Alert
+          sx={{
+            width: '320px',
+            margin: '0 0 5px 10px',
+            transition: 'all 0.3s ease-in-out',
+            display: ap1Value && ap2Value ? 'flex' : 'none',
+          }}
+          severity="info"
+        >
+          <Nautical />
+        </Alert>
       )}
+      <Alert
+        sx={{
+          width: '320px',
+          marginLeft: '10px',
+          transition: 'all 1s ease-in-out',
+          display: errorMsg ? 'flex' : 'none',
+        }}
+        severity="warning"
+      >
+        {errorMsg}
+      </Alert>
     </Box>
   );
 }
