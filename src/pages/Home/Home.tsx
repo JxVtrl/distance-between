@@ -1,6 +1,11 @@
 import React from 'react';
-import { Map } from '../../components';
+import { Map, Footer } from '../../components';
 
 export function Home() {
-  return (<Map />);
+  return (
+    <>
+      <Map />
+      <Footer />
+    </>
+  );
 }

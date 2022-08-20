@@ -1,4 +1,4 @@
-import { iMarker } from "../components/Map";
+import { iMarker } from '../components/Map';
 
 export const findCenterMark = (markers: iMarker[]) => {
   if (markers[0]?.position && markers[1]?.position) {
